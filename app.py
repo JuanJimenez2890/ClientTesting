@@ -30,7 +30,6 @@ admit_list = df["Admit Source"].unique().tolist()
 
 # Date
 # Format checkin Time
-df["Check-In Time"] = df["Check-In Time"]
   # String -> Datetime
 df["Check-In Time"] = pd.to_datetime(df["Check-In Time"], format ='%d/%m/%Y %H:%M' )
 
@@ -54,7 +53,7 @@ day_list = [
     "Sunday",
 ]
 
-check_in_duration = df["Check-In Time"].describe()
+#check_in_duration = df["Check-In Time"].describe()
 
 # Register all departments for callbacks
 all_departments = df["Department"].unique().tolist()
@@ -732,4 +731,4 @@ def update_table(start, end, clinic, admit_type, heatmap_click, reset_click, *ar
 
 # Run the server
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(debug=False, port=5050)
