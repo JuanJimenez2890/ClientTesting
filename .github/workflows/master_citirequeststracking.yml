@@ -31,4 +31,4 @@ jobs:
       with:
         app-name: 'citirequeststracking'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_b63be58ddf1146ab95f84b50eb541107 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_b1222c38ae914dd1ba5ed617ef4e9914 }}
