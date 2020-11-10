@@ -732,4 +732,4 @@ def update_table(start, end, clinic, admit_type, heatmap_click, reset_click, *ar
 
 # Run the server
 if __name__ == "__main__":
-    app.run_server(debug=False)
+    app.run_server(debug=True)
