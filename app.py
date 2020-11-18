@@ -22,7 +22,9 @@ BASE_PATH = pathlib.Path(__file__).parent.resolve()
 DATA_PATH = BASE_PATH.joinpath("data").resolve()
 
 # Read data
-df = pd.read_csv(DATA_PATH.joinpath("clinical_analytics1.csv"), sep = ';')
+df = pd.read_csv(DATA_PATH.joinpath("clinical_analytics3.csv"), sep = ';')
+
+df['Check-In Time']
 
 clinic_list = df["Clinic Name"].unique()
 df["Admit Source"] = df["Admit Source"].fillna("Not Identified")
@@ -75,7 +77,7 @@ def description_card():
             html.H6("by Juan Santiago Jimenez"),
             html.Div(
                 id="intro",
-                children="Explore ticket's clients volume by time of day, waiting time, and care score. Click on the heatmap to visualize patient experience at different time points.",
+                children="Explore ticket's clients volume by time of day, waiting time, and care score. Click on the heatmap to visualize experience at different time points.",
             ),
         ],
     )
@@ -98,11 +100,11 @@ def generate_control_card():
             html.P("Select Client's Request Time"),
             dcc.DatePickerRange(
                 id="date-picker-select",
-                start_date=dt(2014, 1, 1),
-                end_date=dt(2014, 1, 15),
-                min_date_allowed=dt(2014, 1, 1),
-                max_date_allowed=dt(2014, 12, 31),
-                initial_visible_month=dt(2014, 1, 1),
+                start_date=dt(2020, 1, 1),
+                end_date=dt(2020, 1, 15),
+                min_date_allowed=dt(2020, 1, 1),
+                max_date_allowed=dt(2020, 9, 30),
+                initial_visible_month=dt(2020, 1, 1),
             ),
             html.Br(),
             html.Br(),
@@ -360,7 +362,7 @@ def initialize_table():
             "header",
             {"height": "50px"},
             {"id": "header_department", "children": html.B("Department")},
-            {"id": "header_wait_time_min", "children": html.B("Wait Time Minutes")},
+            {"id": "header_wait_time_min", "children": html.B("Wait Time Days")},
             {"id": "header_care_score", "children": html.B("Care Score")},
         )
     ]
@@ -387,7 +389,7 @@ def generate_patient_table(figure_list, departments, wait_time_xrange, score_xra
             "header",
             {"height": "50px"},
             {"id": "header_department", "children": html.B("Department")},
-            {"id": "header_wait_time_min", "children": html.B("Wait Time Minutes")},
+            {"id": "header_wait_time_min", "children": html.B("Wait Time Days")},
             {"id": "header_care_score", "children": html.B("Care Score")},
         )
     ]
@@ -482,13 +484,13 @@ def create_table_figure(
     )
 
     text_wait_time = (
-        "Patient # : "
+        "Ticket # : "
         + patient_id_list
-        + "<br>Check-in Time: "
+        + "<br>Answer Time: "
         + check_in
         + "<br>Wait Time: "
         + grouped["Wait Time Min"].round(decimals=1).map(str)
-        + " Minutes,  Care Score : "
+        + " Days,  Care Score : "
         + grouped["Care Score"].round(decimals=1).map(str)
     )
 
@@ -679,13 +681,13 @@ def update_table(start, end, clinic, admit_type, heatmap_click, reset_click, *ar
 
         for department in departments:
             department_wait_time_figure = create_table_figure(
-                department, filtered_df, "Wait Time Min", wait_time_xrange, ""
+                department, filtered_df, "Wait Time Min", wait_time_xrange,""
             )
             figure_list.append(department_wait_time_figure)
 
         for department in departments:
             department_score_figure = create_table_figure(
-                department, filtered_df, "Care Score", score_xrange, ""
+                department, filtered_df, "Care Score", score_xrange,""
             )
             figure_list.append(department_score_figure)
 
